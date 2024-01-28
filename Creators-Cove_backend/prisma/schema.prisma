@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  fullName String?
+  username String? @unique
+  phoneNumber String? @unique
+  email String @unique
+
+  password String
+  
+}
+
+model Creator {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  name String?
+  userId Int
+  about String?
+  type CreatorType @default(PRODUCT_BASED)
+  ratings Rating[]
+  sectors Sector[]
+
+}
+
+enum CreatorType {
+  PRODUCT_BASED
+  SERVICE_BASED
+  BOTH
+}
+
+model Service {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  name String
+  description String?
+  userId Int
+  serviceID Int
+  sectorID Int
+  price Float
+  description String?
+  
+}
+
+model Product {
+  id Int @id@default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  name String
+  description String?
+  productID Int
+  price Float
+  stock Int
+  categoryID Int
+  
+}
+
+model Sectors {
+  id Int @id@default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  name String
+  description String?
+  sectorID Int
+  type SectorType
+  
+}
+
+enum SectorType {
+  ARCHITECTURE
+  VISUAL AND PERFORMING ARTS
+  CRAFTWORK
+  DESIGN
+  PUBLISHING
+  FILM VIDEO 0R PHOTOGRAPHY
+  ARTS & ANTIQUES
+  FASHION
+  COMPUTER SOFTWARE AND SERVICE_BASED
+  ADVERTISING
+  TELEVISION & RADIO
+  INTERACTIVE ENTERTAINMENT SOFTWARE
+}
+
+model Message {
+  id Int @id@default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  messageID Int
+  senderID Int
+  receiverID Int
+  content String
+  timeStamp DateTime
+  
+}
+
+model Chat {
+  id Int @id@default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  chatID Int
+  contact1ID Int
+  contact2ID Int
+  content String
+  timeStamp DateTime
+  
+}
+
+model Booking {
+  id Int @id@default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+  bookingID Int
+  userId Int
+  productID Int
+  type StatusType
+  
+}
+
+enum StatusType {
+  Pending
+  Confirmed
+  Cancelled
+  Completed
+  In Progress
+  Rejected
+  Expired
+}
